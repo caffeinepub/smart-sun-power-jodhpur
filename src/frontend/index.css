@@ -1,0 +1,283 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Font Faces ─────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("/assets/fonts/BricolageGrotesque-VariableFont.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Outfit";
+  src: url("/assets/fonts/Outfit-VariableFont.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─── Design Tokens ──────────────────────────────────────────────────────── */
+@layer base {
+  :root {
+    --radius: 0.75rem;
+
+    /* Deep navy dark theme always-on */
+    --background: 0.13 0.045 255;
+    --foreground: 0.95 0.01 240;
+
+    --card: 0.17 0.055 258;
+    --card-foreground: 0.95 0.01 240;
+
+    --popover: 0.19 0.06 256;
+    --popover-foreground: 0.95 0.01 240;
+
+    --primary: 0.75 0.18 62;
+    --primary-foreground: 0.12 0.03 255;
+
+    --secondary: 0.22 0.065 260;
+    --secondary-foreground: 0.88 0.02 240;
+
+    --muted: 0.2 0.055 258;
+    --muted-foreground: 0.58 0.04 248;
+
+    --accent: 0.75 0.18 62;
+    --accent-foreground: 0.12 0.03 255;
+
+    --destructive: 0.62 0.22 22;
+    --destructive-foreground: 0.985 0 0;
+
+    --border: 0.3 0.07 255 / 40%;
+    --input: 0.28 0.06 258 / 60%;
+    --ring: 0.75 0.18 62;
+
+    /* Chart colors */
+    --chart-1: 0.75 0.18 62;
+    --chart-2: 0.6 0.18 240;
+    --chart-3: 0.65 0.16 165;
+    --chart-4: 0.7 0.15 290;
+    --chart-5: 0.65 0.22 22;
+
+    /* Sidebar */
+    --sidebar: 0.115 0.04 258;
+    --sidebar-foreground: 0.95 0.01 240;
+    --sidebar-primary: 0.75 0.18 62;
+    --sidebar-primary-foreground: 0.12 0.03 255;
+    --sidebar-accent: 0.2 0.065 258;
+    --sidebar-accent-foreground: 0.95 0.01 240;
+    --sidebar-border: 0.28 0.07 255 / 30%;
+    --sidebar-ring: 0.75 0.18 62;
+
+    /* Custom solar tokens */
+    --gold: 0.75 0.18 62;
+    --gold-bright: 0.85 0.2 75;
+    --gold-dim: 0.6 0.15 55;
+    --navy-deep: 0.09 0.04 258;
+    --navy-mid: 0.145 0.055 256;
+    --glass-bg: 0.22 0.07 258 / 60%;
+    --glass-border: 0.55 0.08 240 / 20%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+    background: linear-gradient(
+      135deg,
+      oklch(0.09 0.04 260) 0%,
+      oklch(0.12 0.055 250) 35%,
+      oklch(0.1 0.045 265) 65%,
+      oklch(0.085 0.035 255) 100%
+    );
+    min-height: 100vh;
+  }
+}
+
+/* ─── Animated Sun Keyframes ─────────────────────────────────────────────── */
+@keyframes sun-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 6px oklch(0.75 0.2 65)) drop-shadow(0 0 12px oklch(0.7 0.18 60));
+    opacity: 0.85;
+  }
+  50% {
+    filter: drop-shadow(0 0 16px oklch(0.85 0.22 70)) drop-shadow(0 0 32px oklch(0.75 0.2 62)) drop-shadow(0 0 48px oklch(0.6 0.16 58));
+    opacity: 1;
+  }
+}
+
+@keyframes sun-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes sun-pulse-ring {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.15); opacity: 0.0; }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(-16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.animate-sun-glow {
+  animation: sun-glow 3s ease-in-out infinite;
+}
+
+.animate-sun-rotate {
+  animation: sun-rotate 20s linear infinite;
+}
+
+.animate-sun-pulse-ring {
+  animation: sun-pulse-ring 3s ease-in-out infinite;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.4s ease-out forwards;
+}
+
+/* ─── Glass Card ─────────────────────────────────────────────────────────── */
+.glass-card {
+  background: linear-gradient(
+    145deg,
+    oklch(0.22 0.07 258 / 60%),
+    oklch(0.18 0.055 256 / 50%)
+  );
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border: 1px solid oklch(0.55 0.08 240 / 18%);
+  box-shadow:
+    0 4px 24px oklch(0.08 0.04 260 / 60%),
+    0 1px 0 oklch(0.7 0.08 240 / 10%) inset,
+    0 -1px 0 oklch(0.08 0.04 260 / 30%) inset;
+}
+
+.glass-card:hover {
+  border-color: oklch(0.55 0.08 240 / 30%);
+  box-shadow:
+    0 8px 32px oklch(0.08 0.04 260 / 70%),
+    0 1px 0 oklch(0.7 0.08 240 / 15%) inset,
+    0 -1px 0 oklch(0.08 0.04 260 / 30%) inset;
+}
+
+/* ─── Stat Card 3D effect ─────────────────────────────────────────────────── */
+.stat-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    oklch(0.75 0.18 62 / 6%) 0%,
+    transparent 60%
+  );
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.stat-card::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -30%;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, oklch(0.75 0.18 62 / 8%) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* ─── Nav active state ───────────────────────────────────────────────────── */
+.nav-item-active {
+  background: linear-gradient(90deg, oklch(0.75 0.18 62 / 15%), transparent);
+  border-left: 3px solid oklch(0.75 0.18 62);
+}
+
+/* ─── Scrollbar styling ──────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: oklch(0.13 0.04 258);
+}
+::-webkit-scrollbar-thumb {
+  background: oklch(0.3 0.07 255);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.4 0.09 252);
+}
+
+/* ─── Badge variants ─────────────────────────────────────────────────────── */
+.badge-pending {
+  background: oklch(0.65 0.15 75 / 20%);
+  color: oklch(0.8 0.18 75);
+  border: 1px solid oklch(0.65 0.15 75 / 35%);
+}
+
+.badge-in-progress {
+  background: oklch(0.55 0.18 240 / 20%);
+  color: oklch(0.75 0.15 230);
+  border: 1px solid oklch(0.55 0.18 240 / 35%);
+}
+
+.badge-completed {
+  background: oklch(0.55 0.16 160 / 20%);
+  color: oklch(0.72 0.17 158);
+  border: 1px solid oklch(0.55 0.16 160 / 35%);
+}
+
+.badge-telecaller { background: oklch(0.5 0.18 290 / 20%); color: oklch(0.78 0.16 290); border: 1px solid oklch(0.5 0.18 290 / 35%); }
+.badge-marketing { background: oklch(0.55 0.2 340 / 20%); color: oklch(0.78 0.18 340); border: 1px solid oklch(0.55 0.2 340 / 35%); }
+.badge-field-worker { background: oklch(0.58 0.18 45 / 20%); color: oklch(0.78 0.16 45); border: 1px solid oklch(0.58 0.18 45 / 35%); }
+.badge-manager { background: oklch(0.5 0.18 240 / 20%); color: oklch(0.75 0.15 235); border: 1px solid oklch(0.5 0.18 240 / 35%); }
+.badge-market-manager { background: oklch(0.48 0.18 270 / 20%); color: oklch(0.75 0.16 270); border: 1px solid oklch(0.48 0.18 270 / 35%); }
+
+/* ─── Mobile bottom nav ──────────────────────────────────────────────────── */
+.bottom-nav {
+  background: oklch(0.115 0.04 258 / 95%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid oklch(0.3 0.07 255 / 25%);
+}
+
+/* ─── Input style override ───────────────────────────────────────────────── */
+input, textarea, select {
+  font-size: 16px !important; /* Prevent mobile zoom */
+}
+
+/* ─── Table row hover ────────────────────────────────────────────────────── */
+.table-row-hover:hover {
+  background: oklch(0.22 0.07 258 / 50%);
+}
+
+/* ─── Gold gradient text ─────────────────────────────────────────────────── */
+.text-gold-gradient {
+  background: linear-gradient(90deg, oklch(0.8 0.2 68), oklch(0.7 0.18 58));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
